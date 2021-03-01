@@ -70,7 +70,6 @@ class KafkaJob extends Job implements JobContract
             with($this->instance = $this->resolve($class))->{$method}($this, $payload['data']);
         } catch (Exception $exception) {
             if (
-                $this->causedByDeadlock($exception) ||
                 Str::contains($exception->getMessage(), ['detected deadlock'])
             ) {
                 sleep($this->connection->getConfig()['sleep_on_deadlock']);
